@@ -4,8 +4,10 @@ package wasmtime
 import "C"
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"runtime"
+	"time"
 	"unsafe"
 )
 
@@ -424,6 +426,8 @@ func (f *Func) Call(store Storelike, args ...interface{}) (interface{}, error) {
 		if len(resultVals) > 0 {
 			resultsPtr = (*C.wasmtime_val_t)(unsafe.Pointer(&resultVals[0]))
 		}
+		currentTime := time.Now()
+		fmt.Println("Inside Call function : ", currentTime.Format("2006-01-02 15:04:05.000000000"))
 		return C.wasmtime_func_call(
 			store.Context(),
 			&f.val,
